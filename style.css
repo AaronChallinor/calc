@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
   }
 
   *, *:before, *:after {
@@ -44,13 +45,48 @@ html {
   }
 
   button {
-    font-size: 24px;
+    font-size: 40px;
+    font-weight: bolder;
     margin: 1px;
     -moz-box-shadow:0 0 5px 1px #999;
     -webkit-box-shadow: 0 0 5px 1px #999;
     border-radius: 5%;
+    background-color: #505050;
+    color: white;
       
   }
+
+  #divide,
+ #times,
+ #minus,
+#equals,
+#plus
+  {
+ 
+    background-color: #FF9500 !important;
+    font-size: 40px;
+      
+  }
+
+  #clear,#empty1,#empty2
+  {
+ 
+    background-color: #D4D4D2 !important;
+    font-weight: bolder;
+    color: black;
+      
+  }
+
+  #clear
+  {
+ 
+    font-size: 24px;
+ 
+  }
+
+
+
+
 
   .button-frame {
     background-color: white;
