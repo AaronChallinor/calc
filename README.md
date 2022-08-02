@@ -1,2 +1,4 @@
 # calc
-TOP: "Calculator" Project
+TOP: Calculator Project
+
+[View the Project Here](https://aaronchallinor.github.io/calc/)
