@@ -1,22 +1,29 @@
-//Next Steps:
-//Set operator variable on symbol press
-//Set numberB AFTER symbol press
-//Trigger operate fucntions on equals press using a, b, and operator variables
+//Next Steps: Fix the 0 being required in the display after operator setting.
+//Enable operations on the final result and onwards. i.e result becomes number A again.
+//Display numberA somewhere when typing number B -See debug section
+//Display the operator somewhere when assigned.-See debug section
+//Fix the random zeroing out of numberA & numberB on Enter sometimes
+//Refactor the whole lot
 
 
 let numberA = 0;
 let numberB = 0;
 let currentOperator = "";
-displayText = document.getElementById("display-text");
+let currentNumber = 1;
+let displayText = document.getElementById("display-text");
 displayText.innerText = "0";
 buttons = Array.from(document.getElementsByTagName("button"));
+let result = "";
 
 let debugArea=document.getElementById("debug");
 
 let intervalId = window.setInterval(function(){
-    debugArea.innerText=(`numberA = ${numberA}
-    numberB = ${numberB}
-    currentOperator = ${currentOperator}`);
+    debugArea.innerText=(`numberA is ${numberA}
+    numberB is ${numberB}
+    currentOperator is ${currentOperator}
+    currentNumber is ${currentNumber}
+    
+    `);
     /// call your function here
   }, 500);
 
@@ -26,24 +33,47 @@ let intervalId = window.setInterval(function(){
 
 //Display and set numberA value
 document.addEventListener("keyup",(e)=> {
-    console.log(e.key);
-
+    
+    //Remove placeholder 0 when you start typing.
     if (displayText.innerText === "0"){
         displayText.innerText = ""
     }
-
+    //Do nothing if the display length has reached 17 characters
     if (displayText.innerText.length > 17){
         return;
     }
-
+    
+    if(currentNumber === 1){
+    //If you're pressing Button 1 to 9 on keypad...
     if (e.key >=0 &&  e.key <=9){
-    
-    
+    //Add that number to the screen
     displayText.innerText += e.key;
-    numberA = parseInt(displayText.innerText);
-    console.log(`numberA is ${numberA}`);
+    //Parse the display value string into the numberA variable.    
+    numberA = parseInt(displayText.innerText);}
+    //Parse the display value string into the numberB variable.
+    }
     
-}})
+    if(currentNumber === 2){  
+    //If you're pressing Button 1 to 9 on keypad...
+    if (e.key >=0 &&  e.key <=9){
+    //Add that number to the screen
+    displayText.innerText += e.key;  
+    numberB = parseInt(displayText.innerText);}}
+
+
+if (e.key ==="/"){ currentOperator = "/"; currentNumber = 2;displayText.innerText ="0";}
+if (e.key ==="*"){ currentOperator = "x"; currentNumber = 2;displayText.innerText ="0";}
+if (e.key ==="-"){ currentOperator = "-"; currentNumber = 2;displayText.innerText ="0";}
+if (e.key === "+"){ currentOperator = "+"; currentNumber = 2;displayText.innerText ="0";}
+
+if (e.key === "Enter"){ 
+    operate(currentOperator,numberA,numberB);
+    displayText.innerText = result;
+    console.log(currentOperator);
+    console.log(numberA);
+    console.log(numberB);
+}
+})
 
 //Clear display, numberA, numberB & currentOperator
 
@@ -58,26 +88,71 @@ document.addEventListener("keyup",(e)=> {
 //Mouse Stuff
 buttons.forEach(button => {    
     button.addEventListener("click",() =>{
-        displaySetA(button);
+        //Clear the placeholder zero to prevent inclusion
+        if (displayText.innerText === "0"){
+            displayText.innerText = ""
+        }
+        //Prevent the numbers from going off the display
+        if (displayText.innerText.length > 17){
+            return;
+        }
+
+        if(currentNumber === 1){
+
+        if (button.classList.contains("number")){
+  
+            displayText.innerText += button.textContent;
+            numberA = parseInt(displayText.innerText);
+            
+         }
+        }
+
+        if(currentNumber === 2){
+
+
+
+
+
+            if (button.classList.contains("number")){
+      
+                displayText.innerText += button.textContent;
+                numberB = parseInt(displayText.innerText);
+                
+             }
+            }
+    
+
+
+
+
+         if (button.classList.contains("operator")){
+  
+            currentOperator = button.textContent;
+            currentNumber = 2;
+            displayText.innerText ="0";
+            
+         }
+
+
+
+
+         if (button.classList.contains("equals")){
+            operate(currentOperator,numberA,numberB);
+            displayText.innerText = result;
+        }
+
+
+
+
+
+
+         else return;
+    
     } )   
 });
 
-//Display and set numberA value
-function displaySetA(button){if (button.classList.contains("number")){
-    if (displayText.innerText === "0"){
-        displayText.innerText = ""
-    }
 
-    if (displayText.innerText.length > 17){
-        return;
-    }
 
-   displayText.innerText += button.textContent;
-   numberA = parseInt(displayText.innerText);
-   console.log(`numberA is ${numberA}`);
-}
-
-}
 
 
 //Clear display, numberA, numberB & currentOperator
@@ -94,6 +169,7 @@ function clearAll(){
     numberA = "0";
     numberB = "0";
     currentOperator = "";
+    currentNumber = 1;
 }
 
 
@@ -102,36 +178,40 @@ function clearAll(){
 
 function add(num1,num2){
 console.log(`The answer is ${num1 + num2}`);
+result= `${num1 + num2}`;
 }
 function subtract(num1,num2){
-console.log(`The answer is ${num1 - num2}`)
+console.log(`The answer is ${num1 - num2}`);
+result= `${num1 - num2}`;
 }
 
 function multiply(num1,num2){
-console.log(`The answer is ${num1 * num2}`)
+console.log(`The answer is ${num1 * num2}`);
+result= `${num1 * num2}`;
 }
 
 function divide(num1,num2){
-console.log(`The answer is ${num1 / num2}`)
+console.log(`The answer is ${num1 / num2}`);
+result= `${num1 / num2}`;
 }
 
 
-function operate(operator,num1,num2){
+function operate(currentOperator,numberA,numberB){
 
-    if (operator === "+"){
-        add(num1,num2);
+    if (currentOperator === "+"){
+        add(numberA,numberB);
     }
 
-    else if (operator  === "-"){
-        subtract(num1,num2);
+    else if (currentOperator  === "-"){
+        subtract(numberA,numberB);
     }
 
-    else if (operator  === "*"){
-        multiply(num1,num2);
+    else if (currentOperator  === "x"){
+        multiply(numberA,numberB);
     }
 
-    else if (operator  === "/"){
-        divide(num1,num2);
+    else if (currentOperator  === "/"){
+        divide(numberA,numberB);
     }
 
     else return;
