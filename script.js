@@ -14,6 +14,7 @@ let displayText = document.getElementById("display-text");
 displayText.innerText = "0";
 buttons = Array.from(document.getElementsByTagName("button"));
 let result = "";
+let doNotUpdate = 0;
 
 let debugArea=document.getElementById("debug");
 
@@ -22,6 +23,7 @@ let intervalId = window.setInterval(function(){
     numberB is ${numberB}
     currentOperator is ${currentOperator}
     currentNumber is ${currentNumber}
+    doNotUpdate is ${doNotUpdate}
     
     `);
     /// call your function here
@@ -50,21 +52,34 @@ document.addEventListener("keyup",(e)=> {
     displayText.innerText += e.key;
     //Parse the display value string into the numberA variable.    
     numberA = parseInt(displayText.innerText);}
-    //Parse the display value string into the numberB variable.
+    
     }
     
     if(currentNumber === 2){  
     //If you're pressing Button 1 to 9 on keypad...
     if (e.key >=0 &&  e.key <=9){
+        displayText.innerText = "";
+        doNotUpdate = 0;
     //Add that number to the screen
-    displayText.innerText += e.key;  
+    if (doNotUpdate === 0){
+    displayText.innerText += e.key;}
+    //Parse the display value string into the numberB variable.  
     numberB = parseInt(displayText.innerText);}}
 
 
-if (e.key ==="/"){ currentOperator = "/"; currentNumber = 2;displayText.innerText ="0";}
-if (e.key ==="*"){ currentOperator = "x"; currentNumber = 2;displayText.innerText ="0";}
-if (e.key ==="-"){ currentOperator = "-"; currentNumber = 2;displayText.innerText ="0";}
-if (e.key === "+"){ currentOperator = "+"; currentNumber = 2;displayText.innerText ="0";}
+// if (e.key ==="/"){ currentOperator = "/"; currentNumber = 2;displayText.innerText ="0";}
+// if (e.key ==="*"){ currentOperator = "x"; currentNumber = 2;displayText.innerText ="0";}
+// if (e.key ==="-"){ currentOperator = "-"; currentNumber = 2;displayText.innerText ="0";}
+// if (e.key === "+"){ currentOperator = "+"; currentNumber = 2;displayText.innerText ="0";}
+
+
+if (e.key ==="/"){ currentOperator = "/"; currentNumber = 2; doNotUpdate = 1;}
+if (e.key ==="*"){ currentOperator = "x"; currentNumber = 2; doNotUpdate = 1;}
+if (e.key ==="-"){ currentOperator = "-"; currentNumber = 2; doNotUpdate = 1;}
+if (e.key === "+"){ currentOperator = "+"; currentNumber = 2; doNotUpdate = 1;}
+
+
+
 
 if (e.key === "Enter"){ 
     operate(currentOperator,numberA,numberB);
@@ -114,8 +129,10 @@ buttons.forEach(button => {
 
 
             if (button.classList.contains("number")){
-      
-                displayText.innerText += button.textContent;
+                displayText.innerText = "";
+                doNotUpdate = 0;
+                if(doNotUpdate === 0){
+                displayText.innerText += button.textContent;}
                 numberB = parseInt(displayText.innerText);
                 
              }
@@ -129,7 +146,8 @@ buttons.forEach(button => {
   
             currentOperator = button.textContent;
             currentNumber = 2;
-            displayText.innerText ="0";
+            // displayText.innerText ="0";
+            doNotUpdate = 1;
             
          }
 
