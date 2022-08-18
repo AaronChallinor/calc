@@ -1,9 +1,20 @@
-//Next Steps: Fix the 0 being required in the display after operator setting.
-//Enable operations on the final result and onwards. i.e result becomes number A again.
+//Critical
+//NumberB can't be more than one digit long. Find out issue and fix.
+
+
+//Done
+
+//Fix the 0 being required in the display after operator setting. (DONE)
+//Enable operations on the final result and onwards. i.e result becomes number A again. (DONE)
+
+
+//Nice to haves:
+//Implement a backspace for the numbers
 //Display numberA somewhere when typing number B -See debug section
 //Display the operator somewhere when assigned.-See debug section
-//Fix the random zeroing out of numberA & numberB on Enter sometimes
-//Refactor the whole lot
+//Fix the random zeroing out of numberA & numberB on Enter sometimes 
+
+
 
 
 let numberA = 0;
@@ -24,6 +35,7 @@ let intervalId = window.setInterval(function(){
     currentOperator is ${currentOperator}
     currentNumber is ${currentNumber}
     doNotUpdate is ${doNotUpdate}
+    result is ${result}
     
     `);
     /// call your function here
@@ -84,11 +96,14 @@ if (e.key === "+"){ currentOperator = "+"; currentNumber = 2; doNotUpdate = 1;}
 if (e.key === "Enter"){ 
     operate(currentOperator,numberA,numberB);
     displayText.innerText = result;
+    numberA = result;
     console.log(currentOperator);
     console.log(numberA);
     console.log(numberB);
 }
 })
+
+
 
 //Clear display, numberA, numberB & currentOperator
 
@@ -157,6 +172,7 @@ buttons.forEach(button => {
          if (button.classList.contains("equals")){
             operate(currentOperator,numberA,numberB);
             displayText.innerText = result;
+            numberA = result;
         }
 
 
@@ -188,6 +204,7 @@ function clearAll(){
     numberB = "0";
     currentOperator = "";
     currentNumber = 1;
+    result = "";
 }
 
 
